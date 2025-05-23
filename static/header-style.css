@@ -1,0 +1,13 @@
+.header {
+    padding: 10px 15px;
+    color: white;
+    background-color: var(--primaryDark);
+}
+.header-hbox {
+    display: flex;
+    justify-content: flex-end;
+}
+.header-title {
+    font-weight: regular;
+    font-size: x-large;
+}

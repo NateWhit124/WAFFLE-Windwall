@@ -1,0 +1,65 @@
+html, body {
+    font-family: 'Poppins', sans-serif;
+    height: 100%;
+    width: 100%;
+	background-color: #d8d8d8;
+	margin: 0;
+}
+
+:root {
+    --offwhite: #d8d8d8; 
+    --lightGray: #b8bdc3;
+    --darkGray: #626669;
+    --primaryLight: #9dd8f4;
+    --primaryMedium: #219EBC;
+    --primaryDark: #023047;
+    --secondaryLight: #78f0b2;
+    --secondaryMedium: #21bc8b;
+    --secondaryDark: #045643;
+    --tertiaryLight: #fed365;
+    --tertiaryMedium: #ff8800;
+    --tertiaryDark: #7f3100;
+
+    --fanWidth: 60px;
+    --fanHeight: 60px;
+}
+
+.fan-selection-container {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    border: 1px solid var(--primaryDark);
+    border-radius: calc(0.1 * var(--fanWidth));
+    padding: calc(0.1 * var(--fanWidth));
+}
+
+.fan-selection-grid {
+    display: grid;
+    width: fit-content;
+    height: fit-content;
+    grid-template-rows: repeat(3, var(--fanWidth) [row-start]);
+    grid-template-columns: repeat(3, var(--fanHeight) [col-start]);
+    justify-items: center;
+    align-items: center;
+}
+
+.fan-box {
+    display: flex;
+    pointer-events: none;
+    background-color: var(--primaryMedium);
+    width: calc(0.85 * var(--fanWidth));
+    height: calc(0.85 * var(--fanHeight));
+    border-radius: calc(0.1 * var(--fanWidth));
+    border-width: calc(0.06 * var(--fanWidth));
+    border-style: solid;
+    border-color: var(--primaryDark);
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+.fan-box.selected {
+    border-color: var(--tertiaryMedium);
+}

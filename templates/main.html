@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Windwall GUI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo-cropped.png') }}">
+    <script type="module" src="{{ url_for('static', filename='js/util.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/fan-grid.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+
+<body>
+    {% include "header.html" %}
+
+    <div class = "fan-selection-container">
+        <div class = "fan-selection-grid">
+        </div>
+    </div>
+
+    <input type="number" class="velocity-input" name="velocity" min="0" max="100">
+    <button class="apply-velocity-button">Apply</button>
+    <button class="select-tool-button">Select</button>
+    <button class="deselect-tool-button">Deselect</button>
+    <button class="select-all-button">Select All</button>
+    <button class="deselect-all-button">Deselect All</button>
+    <button class="show-pct-button">Show Percent</button>
+    <button class="show-speed-button">Show Speed</button>
+</body>
+</html>

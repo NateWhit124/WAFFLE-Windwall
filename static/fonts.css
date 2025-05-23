@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/poppins/poppins-regular-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/poppins/poppins-bold-webfont.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/poppins/poppins-light-webfont.woff2') format('woff2');
+    font-weight: light;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/poppins/poppins-medium-webfont.woff2') format('woff2');
+    font-weight: medium;
+    font-style: normal;
+}
