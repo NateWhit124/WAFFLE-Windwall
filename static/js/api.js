@@ -51,3 +51,21 @@ export async function speedToDutyCycle(speedms) {
     const data = await response.json();
     return data.duty_cycle;
 }
+
+export async function sendPWMs(pwms) {
+    // Convert percent to 12-bit PWM values (0-4095)
+    const pwmValues = pwms.map(pwm => Math.round((pwm / 100.0) * 4095));
+    const response = await fetch('/apply-velocities', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pwms: pwmValues })
+    });
+    if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Backend error:', errorData.message);
+        throw new Error(errorData.message);
+    }
+    return await response.text(); // or .json() if you return JSON from Flask
+}

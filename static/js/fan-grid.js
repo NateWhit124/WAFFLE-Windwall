@@ -1,5 +1,5 @@
 import { hsvToRgb, getFanColor, getFanLabelColor } from './util.js'
-import { dutyCycleToSpeed, speedToDutyCycle } from './api.js'
+import { dutyCycleToSpeed, speedToDutyCycle, sendPWMs } from './api.js'
 
 const gridContainer = document.querySelector('.fan-selection-grid');
 document.addEventListener('contextmenu', (event) => {event.preventDefault();});
@@ -155,14 +155,17 @@ function deselectAll() {
     })
 }
 
-function applyVelocityInput(value) {
-    fanArray.forEach(row => {
-        row.forEach(fan => {
-            if(fan.isSelected) {
-                fan.velocityCallbacks[units](value)
+async function applyVelocityInput(value) {
+    let pcts = [];
+    for (const row of fanArray) {
+        for (const fan of row) {
+            if (fan.isSelected) {
+                await fan.velocityCallbacks[units](value);
+                pcts.push(fan.pct);
             }
-        })
-    })
+        }
+    }
+    sendPWMs(pcts);
 }
 
 function updateLabels() {
