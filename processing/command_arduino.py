@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 import random, sys
 from logging import Logger
 from processing.test_serial import FakeArduino
+import time
 
 # Byte 0 :  1 bit  turn velocity output on/off (0/1)
 #           4 bits Module ID
@@ -46,8 +47,9 @@ class ArduinoInterface:
         self.logger : Optional[Logger] = logger
 
     def set_device(self, device : serial.Serial):
-        device.timeout = 1
+        device.timeout = 10
         self.device = device
+        self.timeout = 10
 
     def send_packet(self, packet : Packet):
         if self.device == None:
@@ -56,13 +58,17 @@ class ArduinoInterface:
         if self.logger is not None:
             self.logger.debug(f"Sending packet to serial device: velocity_output_on: {packet.velocity_output_on} fan_id: {packet.module_id} pwm_value: {packet.pwm}")
             self.logger.debug(f"Sending raw bytes to serial device: {bits.bin}")
+
+        start_time = time.time()
         self.device.write(bits.tobytes())
-        ack = self.device.read(1)[0];
-        if not ack == 1:
-            raise RuntimeError(f"Failed to set PWM for Module with ID {packet.module_id}; did not receive ACK response.")
-        else:
-            if self.logger is not None:
-                self.logger.debug(f"Recieved ACK from serial device.\n")
+        while(self.device.in_waiting == 0):
+            if time.time() - start_time > self.timeout:
+                raise TimeoutError("Timed out waiting for Arduino response.")
+
+        success = self.device.readline()
+        if self.logger is not None:
+            if not success: self.logger.error(f"ERROR: Arduino failed to execute command.")
+            else: self.logger.info(f"Arduino executed command.")
 
     def send_pwm_array_command(self, pwms: list):
         for module_idx,pwm in enumerate(pwms):

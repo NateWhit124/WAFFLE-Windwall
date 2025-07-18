@@ -18,7 +18,8 @@ calibration_fit = processing.calibration.CalibrationFit()
 calibration_fit.init_calibration_data('test_data.csv')
 arduino_interface = processing.command_arduino.ArduinoInterface(logger=logger)
 if DEBUG:
-    arduino_interface.device = FakeArduino(logger=logger)
+    arduino_interface.set_device(serial.Serial("/dev/ttyACM1"))
+    # arduino_interface.set_device(FakeArduino(logger=logger))
 
 @app.route('/', methods=['GET'])
 def landing():
@@ -30,6 +31,7 @@ def duty_cycle_to_speed():
     if not data or 'duty_cycle' not in data:
         return error_message('Missing required parameter: duty_cycle')
     if data['duty_cycle'] == None:
+
         return error_message(f'Duty cycle cannot be None')
     duty_cycle = float(data['duty_cycle'])
     duty_cycle = clamp(duty_cycle, 0, 1)
