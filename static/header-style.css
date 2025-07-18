@@ -8,6 +8,8 @@
     justify-content: flex-end;
 }
 .header-title {
+    font-family: 'Poppins', sans-serif;
     font-weight: regular;
-    font-size: x-large;
+    font-size: large;
+    user-select: none;
 }

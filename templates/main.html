@@ -5,6 +5,8 @@
     <title>Windwall GUI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
+    <link href="{{ url_for('static', filename='assets/fontawesome/css/fontawesome.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/fontawesome/css/solid.css') }}" rel="stylesheet" />
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo-cropped.png') }}">
     <script type="module" src="{{ url_for('static', filename='js/util.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/fan-grid.js') }}"></script>
@@ -12,20 +14,93 @@
 </head>
 
 <body>
-    {% include "header.html" %}
+    <div id="main-div">
+        {% include "header.html" %}
 
-    <div class = "fan-selection-container">
-        <div class = "fan-selection-grid">
+        <div class="main-three-column">
+
+            <div id="left-panel" class="panel">
+                <div id="left-panel-header" class="panel-header">
+                    <div id="left-panel-title" class="panel-title">Console</div>
+                </div>
+                <div id="left-panel-content" class="panel-content">
+                <p id="console">commands</p>
+                </div>
+            </div>
+
+            <div id="middle-panel" class="panel">
+                <div id="middle-panel-header" class="panel-header">
+                    <div id="middle-panel-title" class="panel-title">Fan Grid</div>
+                </div>
+                <div id="middle-panel-content" class="panel-content">
+                    <div id="grid-wrapper">
+                        <div id="grid-details">
+                            <div id="unit-btns">
+                                <button id="show-pct-button" class="tool-btn"><i class="fa-regular fa-percent"></i></button>
+                                <button id="show-speed-button" class="tool-btn"><i class="fa-regular fa-dashboard"></i></button>
+                            </div>
+                            <span id="units-label" style="user-select: none;"></span>
+                        </div>
+                        <div class="fan-selection-container">
+                            <div class="fan-selection-grid"></div>
+                        </div>
+                    </div>
+
+                    <div id="tool-vbox">
+                        <div id="tool-hbox">
+                            <button id="select-tool-button" class="tool-btn"><i class="fa-regular fa-pencil"></i></button>
+                            <button id="deselect-tool-button" class="tool-btn"><i class="fa-regular fa-eraser"></i></button>
+                            <button id="select-all-button" class="tool-btn">Select All</button>
+                            <button id="deselect-all-button" class="tool-btn">Deselect All</button>
+                        </div>
+                    </div>
+
+                    
+
+                </div>
+            </div> 
+            
+            <div id="right-panel" class="panel">
+                <div id="right-panel-header" class="panel-header">
+                    <div id="right-panel-title" class="panel-title">Controls</div>
+                </div>
+                <div id="right-panel-content" class="panel-content">
+                    <div class="tab-container">
+
+                        <div class="tabs-hbox">
+                            <div id="basic-input-tab" class="tab">Basic</div>
+                            <div id="gradient-input-tab" class="tab">Gradient</div>
+                            <div id="function-input-tab" class="tab">Function</div>
+                        </div>
+
+                        <div id="basic-input-page" class="tab-page">
+                            <div class="tab-page-title">Basic Input</div>
+                            <hr>
+                            <div id="apply-velocity-wrapper">
+                                <label style="user-select: none;">Velocity:
+                                    <input type="number" id="velocity-input" name="velocity" step="any" min="0" max="100" maxlength="3">
+                                    <span id="velocity-input-units-label"></span>
+                                </label>
+                                <button id="apply-velocity-button">Apply</button>
+                            </div>
+                        </div>
+
+                        <div id="gradient-input-page" class="tab-page">
+                            <div class="tab-page-title">Gradient Input</div>
+                            <hr>
+                        </div>
+
+                        <div id="function-input-page" class="tab-page">
+                            <div class="tab-page-title">Function Input</div>
+                            <hr>
+                        </div>
+
+                    </div>
+                </div>
+            </div> 
+
         </div>
-    </div>
 
-    <input type="number" class="velocity-input" name="velocity" min="0" max="100">
-    <button class="apply-velocity-button">Apply</button>
-    <button class="select-tool-button">Select</button>
-    <button class="deselect-tool-button">Deselect</button>
-    <button class="select-all-button">Select All</button>
-    <button class="deselect-all-button">Deselect All</button>
-    <button class="show-pct-button">Show Percent</button>
-    <button class="show-speed-button">Show Speed</button>
+    </div>
 </body>
 </html>

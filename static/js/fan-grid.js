@@ -10,18 +10,26 @@ let fanArray, originalFanState;
 let mouseStartRow, mouseStartCol, mouseLastRow, mouseLastCol;
 
 let isSelecting = true;
-const selectToolButton = document.querySelector('.select-tool-button');
-selectToolButton.addEventListener('click', () => {isSelecting = true});
-const deselectToolButton = document.querySelector('.deselect-tool-button');
-deselectToolButton.addEventListener('click', () => {isSelecting = false});
+const selectToolButton = document.getElementById('select-tool-button');
+const deselectToolButton = document.getElementById('deselect-tool-button');
+selectToolButton.addEventListener('click', () => {
+    isSelecting = true
+    selectToolButton.classList.add('selected');
+    deselectToolButton.classList.remove('selected');
+});
+deselectToolButton.addEventListener('click', () => {
+    isSelecting = false
+    selectToolButton.classList.remove('selected');
+    deselectToolButton.classList.add('selected');
+});
 
-const selectAllBtn = document.querySelector('.select-all-button');
+const selectAllBtn = document.getElementById('select-all-button');
 selectAllBtn.addEventListener('click', () => selectAll())
-const deselectAllBtn = document.querySelector('.deselect-all-button');
+const deselectAllBtn = document.getElementById('deselect-all-button');
 deselectAllBtn.addEventListener('click', () => deselectAll())
 
-const velocityInput = document.querySelector('.velocity-input');
-const applyVelocityBtn = document.querySelector('.apply-velocity-button');
+const velocityInput = document.getElementById('velocity-input');
+const applyVelocityBtn = document.getElementById('apply-velocity-button');
 applyVelocityBtn.addEventListener('click', () => {applyVelocityInput(velocityInput.value)});
 
 const unitTypes = Object.freeze({
@@ -29,14 +37,27 @@ const unitTypes = Object.freeze({
     SPEEDMS: 1
 });
 let units = unitTypes.PCT;
+const unitsLabel = document.getElementById('units-label');
+const velocityInputUnitsLabel = document.getElementById('velocity-input-units-label');
+unitsLabel.innerText = "Units: Percent";
+velocityInputUnitsLabel.innerText = "%";
 
-const showPctBtn = document.querySelector('.show-pct-button');
+const showPctBtn = document.getElementById('show-pct-button');
+showPctBtn.classList.add('selected');
 showPctBtn.addEventListener('click', () => { 
     units = unitTypes.PCT; updateLabels();
+    unitsLabel.innerText = "Units: Percent";
+    velocityInputUnitsLabel.innerText = "%";
+    showPctBtn.classList.add('selected');
+    showSpeedBtn.classList.remove('selected');
 });
-const showSpeedBtn = document.querySelector('.show-speed-button');
+const showSpeedBtn = document.getElementById('show-speed-button');
 showSpeedBtn.addEventListener('click', () => {
     units = unitTypes.SPEEDMS; updateLabels();
+    unitsLabel.innerText = "Units: meters/sec";
+    velocityInputUnitsLabel.innerText = "m/s";
+    showSpeedBtn.classList.add('selected');
+    showPctBtn.classList.remove('selected');
 });
 
 class Fan {

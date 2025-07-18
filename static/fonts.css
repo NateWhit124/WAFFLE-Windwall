@@ -1,4 +1,31 @@
 @font-face {
+    font-family: 'Roboto';
+    src: url('./fonts/roboto/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
+    font-weight: 100 900;
+}
+
+@font-face {
+    font-family: 'LucidaConsole';
+    src: url('./fonts/lucida-console/lucida-console.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JetBrainsMono';
+    src: url('./fonts/jetbrainsmono/JetBrainsMono-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JetBrainsMono';
+    src: url('./fonts/jetbrainsmono/JetBrainsMono-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'Poppins';
     src: url('./fonts/poppins/poppins-regular-webfont.woff2') format('woff2');
     font-weight: normal;

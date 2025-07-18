@@ -24,6 +24,223 @@ html, body {
     --fanHeight: 60px;
 }
 
+#main-div {
+    font-family: "Roboto";
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-three-column {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    column-gap: 0;
+    max-height: 100%;
+    max-width: 100%;
+}
+.panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 33%;
+    min-width: 0;
+    box-sizing: border-box;
+    width: 99%;
+    height: 100%;
+}
+.panel-header {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    height: fit-content;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--primaryDark);
+    color: white;
+    user-select: none;
+}
+.panel-content {
+    display: flex;
+    flex-grow: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.panel-title {
+    font-size: 100%;
+    font-weight: normal;
+    user-select: none;
+}
+
+#left-panel {
+    border-top: 2px solid var(--lightGray);
+    font-size: 75%;
+}
+#left-panel-content {
+    padding: 1rem;
+}
+#console {
+    box-sizing: border-box;
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 100%;
+    font-family: "LucidaConsole";
+    margin: 0;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    overflow: auto;
+}
+
+#middle-panel {
+    flex-direction: column;
+    align-items: flex-start;
+    border: 3px solid var(--lightGray);
+}
+
+#grid-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-items: flex-end;
+}
+#tool-vbox {
+    display: flex;
+    flex-direction: row;
+    padding: 0.25rem;
+    border: 1px solid var(--darkGray);
+    border-radius: 0.5rem;
+    background-color: white;
+}
+.tool-btn {
+    background-color: var(--primaryDark);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-weight: bold;
+    transition: background-color 0.15s ease;
+    transition: transform 0.15s ease;
+}
+.tool-btn:hover {
+    background-color: #356380;
+    transform: translateY(-2px);
+}
+.tool-btn.selected {
+    background-color: #356380;
+}
+
+#right-panel {
+    box-sizing: border-box;
+    border-top: 3px solid var(--lightGray);
+    border-bottom: 3px solid var(--lightGray);
+}
+.tab-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+}
+.tabs-hbox {
+    flex: 0 0 1.5rem;
+    display: flex;
+    flex-direction: row;
+    height: 2rem;
+    column-gap: 0.25rem;
+    position: relative;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+.tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border: 1px solid black;
+    border-bottom: none;
+    padding: 0.25rem 0.5rem;
+    user-select: none;
+    margin-top: 0.5rem;
+    transition: margin-top 0.15s ease;
+    background-color: var(--lightGray);
+}
+.tab:hover {
+    margin-top: 0.25rem;
+}
+.tab.selected {
+    background-color: var(--offwhite);
+    transform: translateY(1px);
+}
+.tab-page {
+    flex-grow: 1;
+    box-sizing: border-box;
+    min-width: 0;
+    display: none;
+    flex-direction: column;
+    padding: 1rem;
+    width: 100%;
+}
+.tab-page.selected {
+    display: flex;
+}
+.tab-page > hr {
+    width: 100%;
+    height: 1px;
+    background-color: black;
+}
+.tab-page-title {
+    font-size: 150%;
+    font-weight: normal;
+    user-select: none;
+}
+
+#apply-velocity-wrapper {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.25rem;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+#velocity-input {
+    border: none;
+    border-radius: 5px;
+    text-align: end;
+    width: 4.5ch;
+    padding: 0.25rem 0.5rem;
+    margin-left: 0.5rem;
+    -moz-appearance: textfield;
+}
+#velocity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+#apply-velocity-button {
+    background-color: var(--tertiaryDark);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    margin-left: 1rem;
+}
+#apply-velocity-button:hover {
+    background-color: #904211;
+}
+
 .fan-selection-container {
     display: inline-block;
     justify-content: center;
@@ -34,6 +251,7 @@ html, body {
     border: 1px solid var(--primaryDark);
     border-radius: calc(0.1 * var(--fanWidth));
     padding: calc(0.1 * var(--fanWidth));
+    margin: 0.25rem 0;
 }
 
 .fan-selection-grid {
@@ -59,6 +277,8 @@ html, body {
     justify-content: center;
     align-items: center;
     user-select: none;
+    font-size: 40%;
+    overflow: hidden;
 }
 .fan-box.selected {
     border-color: var(--tertiaryMedium);

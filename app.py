@@ -1,16 +1,24 @@
 from flask import Flask, request, render_template, jsonify
 import processing.calibration
 import processing.command_arduino
+from processing.test_serial import FakeArduino
+from pydantic import ValidationError
 import serial
+import sys
+import logging
+
 
 app = Flask(__name__)
 logger = app.logger
 
+DEBUG = len(sys.argv) > 1 and sys.argv[1] == "debug"
+
 duty_cycle_epsilon = 0.1
 calibration_fit = processing.calibration.CalibrationFit()
 calibration_fit.init_calibration_data('test_data.csv')
-arduino_interface = processing.command_arduino.ArduinoInterface()
-arduino_interface.device = serial.serial_for_url('loop://')
+arduino_interface = processing.command_arduino.ArduinoInterface(logger=logger)
+if DEBUG:
+    arduino_interface.device = FakeArduino(logger=logger)
 
 @app.route('/', methods=['GET'])
 def landing():
@@ -50,10 +58,14 @@ def speed_to_duty_cycle():
 @app.route('/apply-velocities', methods=['POST'])
 def apply_velocities():
     data = request.get_json()
-    pwms = data['pwms']
-    arduino_interface.send_pwm_array_command(pwms)
-    arduino_interface.print_loop_buffer()
-    return "good", 200
+    try: 
+        for module_id,pwm in enumerate(data['pwms']):
+            packet = processing.command_arduino.Packet(module_id=module_id,pwm=int(pwm))
+            arduino_interface.send_packet(packet)
+    except (ValidationError,RuntimeError) as e:
+        logger.error(f"Failed to apply velocities: {e}")
+        return error_message(f"Failed to apply velocities: {e}")
+    return success_message("Packets sent.")
 
 def clamp(x, _min, _max):
     return max(_min, min(x,_max))
@@ -64,5 +76,14 @@ def error_message(message : str):
         'message': message
     }), 400
 
+def success_message(message : str):
+    return jsonify({
+        'status': 'success',
+        'message': message
+    }), 200
 
-app.run(host='0.0.0.0', port='5000', debug=True)
+if DEBUG:
+    app.logger.setLevel(logging.DEBUG)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+else:
+    app.run(host='0.0.0.0', port=5000, debug=False)
