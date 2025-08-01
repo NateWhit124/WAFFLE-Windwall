@@ -8,8 +8,8 @@ class FakeArduino:
         self._read_buffer = io.BytesIO()
         self._write_buffer = io.BytesIO()
         self.logger : Optional[Logger] = logger
+        self.in_waiting : int = 0
 
-    
     def write(self, data):
         """Simulates writing data to the serial port."""
         self._write_buffer.seek(0, io.SEEK_END)  # move to end before writing

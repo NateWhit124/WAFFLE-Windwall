@@ -1,4 +1,5 @@
 import { initGrid } from './fan-grid.js'
+import './logging.js'
 
 initGrid(4, 3, 60);
 

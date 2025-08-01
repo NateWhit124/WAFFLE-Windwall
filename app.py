@@ -6,24 +6,59 @@ from pydantic import ValidationError
 import serial
 import sys
 import logging
-
+from io import StringIO
 
 app = Flask(__name__)
-logger = app.logger
-
+HOST = '0.0.0.0'
+PORT = 5000
 DEBUG = len(sys.argv) > 1 and sys.argv[1] == "debug"
+logger = app.logger
+class ClientLogHandler(logging.Handler):
+    def __init__(self):
+        self._client_log_buffer = StringIO()
+        self.level_colors = {
+            "DEBUG":"green",
+            "INFO":"blue",
+            "WARNING":"yellow",
+            "ERROR":"red"
+        }
+        super().__init__()
+    def emit(self, record):
+        color = self.level_colors[record.levelname]
+        self._client_log_buffer.write(f"<span>[{record.asctime}] <span style=\"color: {color};\">{record.levelname}</span> in {record.funcName}: {record.getMessage()}</span><br><br>")
+    def get_log_delta(self):
+        self._client_log_buffer.seek(0)
+        delta = self._client_log_buffer.read()
+        self._client_log_buffer.seek(0)
+        self._client_log_buffer.truncate()
+        return delta
+client_log_handler = ClientLogHandler()
+logger.addHandler(client_log_handler)
+
+class ClientLogFilter(logging.Filter):
+    def __init__(self):
+        super().__init__()
+    def filter(self, record):  
+        return "GET /log HTTP/1.1" not in record.getMessage()
+client_log_filter = ClientLogFilter()
+werkzeug_logger = logging.getLogger("werkzeug")
+werkzeug_logger.addFilter(client_log_filter)
 
 duty_cycle_epsilon = 0.1
 calibration_fit = processing.calibration.CalibrationFit()
 calibration_fit.init_calibration_data('test_data.csv')
 arduino_interface = processing.command_arduino.ArduinoInterface(logger=logger)
 if DEBUG:
-    arduino_interface.set_device(serial.Serial("/dev/ttyACM1"))
-    # arduino_interface.set_device(FakeArduino(logger=logger))
+    # arduino_interface.set_device(serial.Serial("/dev/ttyACM1"))
+    arduino_interface.set_device(FakeArduino(logger=logger))
 
 @app.route('/', methods=['GET'])
 def landing():
     return render_template('main.html')
+
+@app.route('/log', methods=['GET'])
+def get_log():
+    return jsonify(client_log_handler.get_log_delta())
 
 @app.route('/duty-cycle-to-speed', methods=['POST'])
 def duty_cycle_to_speed():
@@ -64,7 +99,7 @@ def apply_velocities():
         for module_id,pwm in enumerate(data['pwms']):
             packet = processing.command_arduino.Packet(module_id=module_id,pwm=int(pwm))
             arduino_interface.send_packet(packet)
-    except (ValidationError,RuntimeError) as e:
+    except (ValidationError,RuntimeError,TimeoutError) as e:
         logger.error(f"Failed to apply velocities: {e}")
         return error_message(f"Failed to apply velocities: {e}")
     return success_message("Packets sent.")
@@ -86,6 +121,6 @@ def success_message(message : str):
 
 if DEBUG:
     app.logger.setLevel(logging.DEBUG)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host=HOST, port=PORT, debug=DEBUG)
 else:
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host=HOST, port=PORT, debug=DEBUG)
