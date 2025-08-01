@@ -49,9 +49,9 @@ class ArduinoInterface:
         self.logger : Optional[Logger] = logger
 
     def set_device(self, device : serial.Serial):
-        device.timeout = 10
+        device.timeout = 0.5
         self.device = device
-        self.timeout = 10
+        self.timeout = 0.5
 
     def send_packet(self, packet : Packet):
         if self.device == None:
@@ -70,7 +70,8 @@ class ArduinoInterface:
         success = self.device.readline()
         if self.logger is not None:
             if not success: self.logger.error(f"ERROR: Arduino failed to execute command.")
-            else: self.logger.info(f"Arduino executed command.")
+            elif not packet.velocity_output_on: self.logger.info(f"Arduino executed command: Set Module {packet.module_id} to PWM {packet.pwm}.")
+            elif packet.velocity_output_on: self.logger.info(f"Arduino executed command: Turn velocity output {'ON' if packet.velocity_output_on else 'OFF'}.")
 
     def decode_pwm_command(self, packet : bytes):
         value = int.from_bytes(packet, byteorder='big')

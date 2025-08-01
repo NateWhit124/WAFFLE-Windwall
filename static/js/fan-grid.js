@@ -23,31 +23,32 @@ deselectToolButton.addEventListener('click', () => {
     deselectToolButton.classList.add('selected');
 });
 
-const selectAllBtn = document.getElementById('select-all-button');
-selectAllBtn.addEventListener('click', () => selectAll())
-const deselectAllBtn = document.getElementById('deselect-all-button');
-deselectAllBtn.addEventListener('click', () => deselectAll())
-
-const velocityInput = document.getElementById('velocity-input');
-const applyVelocityBtn = document.getElementById('apply-velocity-button');
-applyVelocityBtn.addEventListener('click', () => {applyVelocityInput(velocityInput.value)});
-
 const unitTypes = Object.freeze({
     PCT: 0,
     SPEEDMS: 1
 });
 let units = unitTypes.PCT;
 const unitsLabel = document.getElementById('units-label');
-const velocityInputUnitsLabel = document.getElementById('velocity-input-units-label');
 unitsLabel.innerText = "Units: Percent";
-velocityInputUnitsLabel.innerText = "%";
+
+const selectAllBtn = document.getElementById('select-all-button');
+selectAllBtn.addEventListener('click', () => selectAll())
+const deselectAllBtn = document.getElementById('deselect-all-button');
+deselectAllBtn.addEventListener('click', () => deselectAll())
+
+// apply velocity buttons, pct and m/s
+const velocityInputPercent = document.getElementById('velocity-input-percent');
+const applyVelocityPercentBtn = document.getElementById('apply-velocity-percent-button');
+applyVelocityPercentBtn.addEventListener('click', () => {applyVelocityInput(velocityInputPercent.value, unitTypes.PCT)})
+const velocityInputRaw = document.getElementById('velocity-input-raw');
+const applyVelocityRawBtn = document.getElementById('apply-velocity-raw-button');
+applyVelocityRawBtn.addEventListener('click', () => {applyVelocityInput(velocityInputRaw.value, unitTypes.SPEEDMS)})
 
 const showPctBtn = document.getElementById('show-pct-button');
 showPctBtn.classList.add('selected');
 showPctBtn.addEventListener('click', () => { 
     units = unitTypes.PCT; updateLabels();
     unitsLabel.innerText = "Units: Percent";
-    velocityInputUnitsLabel.innerText = "%";
     showPctBtn.classList.add('selected');
     showSpeedBtn.classList.remove('selected');
 });
@@ -55,7 +56,6 @@ const showSpeedBtn = document.getElementById('show-speed-button');
 showSpeedBtn.addEventListener('click', () => {
     units = unitTypes.SPEEDMS; updateLabels();
     unitsLabel.innerText = "Units: meters/sec";
-    velocityInputUnitsLabel.innerText = "m/s";
     showSpeedBtn.classList.add('selected');
     showPctBtn.classList.remove('selected');
 });
@@ -176,7 +176,7 @@ function deselectAll() {
     })
 }
 
-async function applyVelocityInput(value) {
+async function applyVelocityInput(value, units) {
     let pcts = [];
     for (const row of fanArray) {
         for (const fan of row) {

@@ -1,5 +1,6 @@
 import { initGrid } from './fan-grid.js'
 import './logging.js'
+import './gradient.js'
 
 initGrid(4, 3, 60);
 
@@ -25,14 +26,22 @@ tabs.forEach(tab => {
     });
 });
 
-const basicInputTab = document.getElementById('basic-input-tab');
-basicInputTab.classList.add('selected');
-const basicInputPage = document.getElementById('basic-input-page');
-basicInputPage.classList.add('selected');
+// const basicInputTab = document.getElementById('basic-input-tab');
+// basicInputTab.classList.add('selected');
+// const basicInputPage = document.getElementById('basic-input-page');
+// basicInputPage.classList.add('selected');
 
+const gradientInputTab = document.getElementById('gradient-input-tab');
+gradientInputTab.classList.add('selected');
+const gradientInputPage = document.getElementById('gradient-input-page');
+gradientInputPage.classList.add('selected');
 
-const velocityInput = document.getElementById('velocity-input');
-velocityInput.addEventListener('input', () => {
+const velocityInputPercent = document.getElementById('velocity-input-percent');
+const velocityInputRaw = document.getElementById('velocity-input-raw');
+
+velocityInputPercent.addEventListener('input', (e) => formatVelocityInput(e.currentTarget))
+velocityInputRaw.addEventListener('input', (e) => formatVelocityInput(e.currentTarget))
+function formatVelocityInput(velocityInput) {
     let val = velocityInput.value;
 
     // Limit total length (excluding decimals)
@@ -61,5 +70,4 @@ velocityInput.addEventListener('input', () => {
     if (velocityInput.value !== val) {
         velocityInput.value = val;
     }
-});
-
+}

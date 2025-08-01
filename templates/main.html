@@ -24,7 +24,8 @@
                     <div id="left-panel-title" class="panel-title">Console</div>
                 </div>
                 <div id="left-panel-content" class="panel-content">
-                <div id="console"></div>
+                    <div id="console">
+                    </div>
                 </div>
             </div>
 
@@ -76,18 +77,70 @@
                         <div id="basic-input-page" class="tab-page">
                             <div class="tab-page-title">Basic Input</div>
                             <hr>
-                            <div id="apply-velocity-wrapper">
-                                <label style="user-select: none;">Velocity:
-                                    <input type="number" id="velocity-input" name="velocity" step="any" min="0" max="100" maxlength="3">
-                                    <span id="velocity-input-units-label"></span>
-                                </label>
-                                <button id="apply-velocity-button">Apply</button>
+                            <div id="basic-input-grid">
+                                <div class="tab-page-subtitle">Percentage Input&ensp;<i class="fa-solid fa-question-circle"></i></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <label for="velocity-input-percent" style="user-select: none;">Percent:</label>
+                                <div>
+                                    <input type="number" class="number-input" id="velocity-input-percent" name="velocity-input-percent" step="any" min="0" max="100" maxlength="3">
+                                    <span id="velocity-input-units-label">%</span>
+                                </div>
+                                <button class="apply-button" id="apply-velocity-percent-button" style="margin-left: 1rem;">Apply</button>
+
+                                <div class="tab-page-subtitle">Raw Input&ensp;<i class="fa-solid fa-question-circle"></i></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <label for="velocity-input-raw" style="user-select: none;">Velocity:</label>
+                                <div>
+                                    <input type="number" class="number-input" id="velocity-input-raw" name="velocity-input-raw" step="any" min="0" max="100" maxlength="3">
+                                    <span id="velocity-input-units-label">m/s</span>
+                                </div>
+                                <button class="apply-button" id="apply-velocity-raw-button" style="margin-left: 1rem;">Apply</button>
                             </div>
                         </div>
 
                         <div id="gradient-input-page" class="tab-page">
                             <div class="tab-page-title">Gradient Input</div>
                             <hr>
+                            <div id="gradient-input-grid">
+                                <div class="tab-page-subtitle">Type:</div>
+                                <select>
+                                    <option>Linear</option>
+                                    <option>Nth Power Polynomial</option>
+                                </select>
+
+                                <div class="tab-page-subtitle">Direction:</div>
+                                <div id="gradient-direction-grid">
+                                    <div></div>
+                                    <div class="gradient-direction"><i class="fa-solid fa-arrow-up"></i></div>
+                                    <div></div>
+                                    <div class="gradient-direction"><i class="fa-solid fa-arrow-left"></i></div>
+                                    <div></div>
+                                    <div class="gradient-direction"><i class="fa-solid fa-arrow-right"></i></div>
+                                    <div></div>
+                                    <div class="gradient-direction"><i class="fa-solid fa-arrow-down"></i></div>
+                                    <div></div>
+                                </div>
+
+                                <div class="tab-page-subtitle">Start:</div>
+                                <div>
+                                    <input type="number" class="number-input" id="gradient-minimum-input" name="velocity-input-raw" step="any" min="0" max="100" maxlength="3">
+                                    %
+                                </div>
+
+                                <div class="tab-page-subtitle">End:</div>
+                                <div>
+                                    <input type="number" class="number-input" id="gradient-maximum-input" name="velocity-input-raw" step="any" min="0" max="100" maxlength="3">
+                                    %
+                                </div>
+
+                                <button id="apply-gradient-button" class="apply-button">Apply</button>
+                            </div>
                         </div>
 
                         <div id="function-input-page" class="tab-page">

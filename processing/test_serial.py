@@ -25,10 +25,11 @@ class FakeArduino:
 
             if self.logger:
                 bits = BitArray(packet)
-                self.logger.debug(f"FakeArduino received command: {self.decode_pwm_command(bits.tobytes())}")
-                self.logger.debug(f"FakeArduino received raw bytes: {bits.bin}")
+                # self.logger.debug(f"FakeArduino received command: {self.decode_pwm_command(bits.tobytes())}")
+                # self.logger.debug(f"FakeArduino received raw bytes: {bits.bin}")
 
-            self.inject_input(bytes([1]))
+            self.inject_input(bytes([1,0x0a]))
+            self.in_waiting = 2
 
         # rebuild the buffer with remaining bytes
         remaining = self._write_buffer.read()
