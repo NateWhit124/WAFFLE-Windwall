@@ -2,7 +2,9 @@ import { initGrid } from './fan-grid.js'
 import './logging.js'
 import './gradient.js'
 
-initGrid(4, 3, 60);
+export const gridWidth = 4;
+export const gridHeight = 3;
+initGrid(gridWidth, gridHeight, 60);
 
 const tabs = document.querySelectorAll('.tab');
 tabs.forEach(tab => {

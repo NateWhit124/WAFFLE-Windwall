@@ -23,7 +23,7 @@ deselectToolButton.addEventListener('click', () => {
     deselectToolButton.classList.add('selected');
 });
 
-const unitTypes = Object.freeze({
+export const unitTypes = Object.freeze({
     PCT: 0,
     SPEEDMS: 1
 });
@@ -184,6 +184,17 @@ async function applyVelocityInput(value, units) {
                 await fan.velocityCallbacks[units](value);
                 pcts.push(fan.pct);
             }
+        }
+    }
+    sendPWMs(pcts);
+}
+
+export async function applyGradientInput(gradient, units) {
+    let pcts = [];
+    for (let i=0; i<fanArray.length; i++) {
+        for (let j=0; j<fanArray[i].length; j++) {
+            await fanArray[i][j].velocityCallbacks[units](gradient[j][i]);
+            pcts.push(fanArray[i][j].pct);
         }
     }
     sendPWMs(pcts);
